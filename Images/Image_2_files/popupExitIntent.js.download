@@ -1,0 +1,42 @@
+function getValue(e, t, n = "") {
+    var i = t.split(".").map(function (e) {
+        return e.trim()
+    });
+    for (t in i) {
+        if (void 0 === e[i[t]]) return n;
+        e = e[i[t]]
+    }
+    return e
+}
+
+function getUrlQuery() {
+    return getValue(getUrl().split("?"), "1")
+}
+
+function valueGet(e = "") {
+    var t = {},
+        n = getUrlQuery();
+    if (!n && !e) return t;
+    var i = n.split("&").map(function (e) {
+        return e.split("=")
+    });
+    return $.each(i, function (e, n) {
+        t[n[0]] = n[1]
+    }), e ? getValue(t, e) : t
+}
+
+function getUrl() {
+    let e = "";
+    try {
+        e = top.location.href
+    } catch (t) {
+        e = window.location.href
+    } finally {
+        return e
+    }
+}
+
+function getCurrentLanguage() {
+    let e = getUrl().substr(baseUrl.length).split("/").slice(0, 1).join("");
+    return -1 === supportedLanguages.indexOf(e) ? supportedLanguages[0] : e
+}
